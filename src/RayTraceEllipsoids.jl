@@ -4,7 +4,7 @@ using CoordinateTransformations, StaticArrays, LinearAlgebra
 
 export V3c, Ray, Ellipsoid, Interface, OpticUnit, raytrace!, Medium, NonRetina, Retina, Interface, Glued, Active, Near, Far, Light, Cylinder, cspheroid
 
-ENERGYTHRESHOLD = 0.01
+const ENERGYTHRESHOLD = 0.01
 
 """
     V3c = SVector{3,Float64}
