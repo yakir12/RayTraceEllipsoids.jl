@@ -1,4 +1,4 @@
-module RayTraceEllipsoid
+module RayTraceEllipsoids
 
 using CoordinateTransformations, StaticArrays, LinearAlgebra
 
@@ -214,6 +214,7 @@ end
 function absorbmove!(r, l, m)
     register!(r, l, m)
     r.int *= absorption(l, m.absorption_coefficient)
+    r.int < ENERGYTHRESHOLD && throw(DeadRay())
     r.orig += l*r.dir
 end
 
@@ -337,7 +338,6 @@ Advance a ray to the intersection point with an ellipsoid. If the intersection w
 function raytrace!(r::Ray{T}, c::OpticUnit{T}) where {T <: AbstractFloat}
     l = distance(r, c.surface)
     absorbmove!(r, l, c.medium)
-    r.int < ENERGYTHRESHOLD && throw(DeadRay())
     bend!(r, c.interface)
 end
 
