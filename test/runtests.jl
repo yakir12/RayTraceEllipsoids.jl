@@ -153,3 +153,33 @@ end
     ray.dir ≈ V3(sin(θ), 0, -cos(θ)) && ray.orig == V3(0, 0, d + cz)
 end
 
+@test all(1:10^5) do _
+    d = 10*rand()
+    r = rand()
+    cz = rand()
+    d += cz
+    l = Light(d, 2r, r, r, cz, 0)
+    ray = l(1, 0.5)
+    ray.dir ≈ V3(0, 0, -1) && ray.orig == V3(0, 0, d + cz)
+end
+
+
+@test all(1:10^5) do _
+    z = rand()
+    c = V3(1.0,1,1)
+    r = V3(2.0,2,2)
+    orig = V3(c[1] + 1, c[2] + 1, c[3] + r[3] + z)
+    dir = V3(0.0,0,-1)
+    p1 = copy(dir)
+    ray = Ray(orig, dir)
+    h = true
+    ss = Ellipsoid(c, r, h)
+    l = RayTraceEllipsoids.distance(ray, ss)
+    s = Cylinder(r[1], c[2] - r[2], c[3] + r[3])
+    m = Retina(s, 0.5)
+    ou = OpticUnit(ss, false, 0.9, m)
+    raytrace!(ray, ou)
+    p2 = ray.dir
+    acosd(dot(p1, p2) / sqrt(norm(p1)*norm(p2))) ≈ 45 - asind(sind(45)*0.9) && norm(ray.orig - orig) == l
+end
+
