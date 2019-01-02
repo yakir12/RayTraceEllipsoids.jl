@@ -142,4 +142,14 @@ o2 = r.orig + r.dir*l
     acosd(dot(p1, p2) / sqrt(norm(p1)*norm(p2))) ≈ 45 - asind(sind(45)*0.9)
 end
 
-# l = Light(1m, 1mm, 1mm, 1mm, 1mm, 1rad)
+@test all(1:10^5) do _
+    d = 10*rand()
+    r = rand()
+    cz = rand()
+    d += cz
+    l = Light(d, 2r, r, r, cz, 0)
+    ray = l(1)
+    θ = atan(r/d)
+    ray.dir ≈ V3(sin(θ), 0, -cos(θ)) && ray.orig == V3(0, 0, d + cz)
+end
+

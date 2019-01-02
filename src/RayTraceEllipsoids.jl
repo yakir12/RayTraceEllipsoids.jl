@@ -366,7 +366,7 @@ struct Light
         radius = aperture/2
         h = rz*sqrt(1 - (radius/rxy)^2)
         nodal = V3(0, 0, cz + h)
-        rotm = LinearMap(RotY(θ))
+        rotm = LinearMap(RotY{Float64}(θ))
         tran = recenter(rotm, nodal)
         orig = tran(nodal + V3(0, 0,distance))
         v1 = nodal - orig
@@ -378,7 +378,7 @@ struct Light
         cosa = min(cosalpha1, cosalpha2, cosalpha3)
         z = cz + h
         nom = z - orig[3]
-        new(cosa, orig, rotm, nom, nodal, radius)
+        new(cosa, orig, rotm, nom, nodal, radius + 1e-7) # adding some fuzz factor to the radius
     end
 
 end
