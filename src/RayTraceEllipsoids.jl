@@ -244,7 +244,7 @@ end
 
 const LOG10EXP = 1/(log10(exp(1)))
 
-function absorption(l::Float64, absorption_coefficient::Float64) 
+function absorption(l::Real, absorption_coefficient::Real) 
     kl = absorption_coefficient*l
     kl/(LOG10EXP + kl)
 end
