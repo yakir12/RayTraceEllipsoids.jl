@@ -183,3 +183,74 @@ end
     acosd(dot(p1, p2) / sqrt(norm(p1)*norm(p2))) ≈ 45 - asind(sind(45)*0.9) && norm(ray.orig - orig) == l
 end
 
+
+
+orig = V3(0,0,1)
+dir = V3(0,0,-1)
+r = Ray(orig, dir)
+s = Cylinder(1, -1, 1)
+L = 2.0
+@test RayTraceEllipsoids.incylinder(r, s, L) == L
+
+
+orig = V3(1,2,1)
+dir = V3(0,0,-1)
+r = Ray(orig, dir)
+s = Cylinder(1, -1, 1)
+L = 2.0
+@test RayTraceEllipsoids.incylinder(r, s, L) == 0
+
+
+orig = V3(2,2,1)
+dir = normalize(V3(0,1,-1))
+r = Ray(orig, dir)
+s = Cylinder(1, -1, 1)
+L = 2.0
+@test RayTraceEllipsoids.incylinder(r, s, L) == 0
+
+
+orig = V3(1,1,1)
+dir = normalize(V3(1,1,-1))
+r = Ray(orig, dir)
+s = Cylinder(1, -1, 1)
+L = 2.0
+@test RayTraceEllipsoids.incylinder(r, s, L) == 0
+
+
+orig = V3(0,2,0)
+dir = normalize(V3(0,1,0))
+r = Ray(orig, dir)
+s = Cylinder(1, -1, 1)
+L = 2.0
+@test RayTraceEllipsoids.incylinder(r, s, L) == 0
+
+
+orig = V3(0,0,1)
+dir = normalize(V3(0,-1,-1))
+r = Ray(orig, dir)
+s = Cylinder(1, -1, 1)
+L = 2.0
+@test RayTraceEllipsoids.incylinder(r, s, L) == sqrt(2)
+
+
+orig = V3(0,0,1)
+dir = normalize(V3(0,-0.1,-1))
+r = Ray(orig, dir)
+s = Cylinder(1, -1, 1)
+L = 2.0
+@test RayTraceEllipsoids.incylinder(r, s, L) == L
+
+
+orig = V3(0,2,1)
+dir = normalize(V3(0,-1,0))
+r = Ray(orig, dir)
+s = Cylinder(1, -1, 1)
+L = 2.0
+@test RayTraceEllipsoids.incylinder(r, s, L) == 1
+L = 9.0
+@test RayTraceEllipsoids.incylinder(r, s, L) == 2
+L = 0.3
+@test RayTraceEllipsoids.incylinder(r, s, L) == 0
+
+
+
